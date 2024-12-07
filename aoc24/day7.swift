@@ -84,38 +84,31 @@ struct Day7: Day {
     }
 
 
-    func part1(input: String) {
+    private func solveEquations(input: String, canEqualFn: (Int, [Int]) -> Bool) -> Int {
         let equations = parseEquation(input)
-        let sum = equations
-            .filter { canEqual(target: $0.target, numbers: $0.numbers) }
+        return equations
+            .filter { canEqualFn($0.target, $0.numbers) }
             .map { $0.target }
             .reduce(0, +)
+    }
+
+    func part1(input: String) {
+        let sum = solveEquations(input: input, canEqualFn: canEqual)
         print("Part 1: \(sum)")
     }
     
     func testPart1(input: String) {
-        let equations = parseEquation(input)
-        let sum = equations
-            .filter { canEqual(target: $0.target, numbers: $0.numbers) }
-            .map { $0.target }
-            .reduce(0, +)
+        let sum = solveEquations(input: input, canEqualFn: canEqual)
         assert(sum == 3749, "Expected 3749 but got \(sum)")
     }
+
     func part2(input: String) {
-        let equations = parseEquation(input)
-        let sum = equations
-            .filter { canEqualWithConcatenation(target: $0.target, numbers: $0.numbers) }
-            .map { $0.target }
-            .reduce(0, +)
+        let sum = solveEquations(input: input, canEqualFn: canEqualWithConcatenation)
         print("Part 2: \(sum)")
     }
     
     func testPart2(input: String) {
-        let equations = parseEquation(input)
-        let sum = equations
-            .filter { canEqualWithConcatenation(target: $0.target, numbers: $0.numbers) }
-            .map { $0.target }
-            .reduce(0, +)
+        let sum = solveEquations(input: input, canEqualFn: canEqualWithConcatenation)
         assert(sum == 11387, "Expected 11387 but got \(sum)")
     }
 }
