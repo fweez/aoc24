@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9450968F2CFCE8730005CD4D /* Parsing in Frameworks */ = {isa = PBXBuildFile; productRef = 9450968E2CFCE8730005CD4D /* Parsing */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		945095E32CFCE0EE0005CD4D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -35,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9450968F2CFCE8730005CD4D /* Parsing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +82,7 @@
 			);
 			name = aoc24;
 			packageProductDependencies = (
+				9450968E2CFCE8730005CD4D /* Parsing */,
 			);
 			productName = aoc24;
 			productReference = 945095E52CFCE0EE0005CD4D /* aoc24 */;
@@ -106,6 +112,9 @@
 			);
 			mainGroup = 945095DC2CFCE0EE0005CD4D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				9450968D2CFCE8730005CD4D /* XCRemoteSwiftPackageReference "swift-parsing" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 945095E62CFCE0EE0005CD4D /* Products */;
 			projectDirPath = "";
@@ -289,6 +298,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9450968D2CFCE8730005CD4D /* XCRemoteSwiftPackageReference "swift-parsing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-parsing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.13.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9450968E2CFCE8730005CD4D /* Parsing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9450968D2CFCE8730005CD4D /* XCRemoteSwiftPackageReference "swift-parsing" */;
+			productName = Parsing;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 945095DD2CFCE0EE0005CD4D /* Project object */;
 }
