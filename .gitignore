@@ -1,0 +1,12 @@
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+# Input files
+*.txt
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride 
