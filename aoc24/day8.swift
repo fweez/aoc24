@@ -24,17 +24,22 @@ struct Day8: Day {
         ............
         """ }
 
-    func parseAntennas(_ input: String) -> [(frequency: Character, position: (x: Int, y: Int))] {
+    struct Point: Equatable, Hashable {
+        let x: Int
+        let y: Int
+    }
+    
+    func parseAntennas(_ input: String) -> [(frequency: Character, position: Point)] {
         input.split(separator: "\n").enumerated().flatMap { y, line in
             line.enumerated().compactMap { x, char in
-                char == "." ? nil : (frequency: char, position: (x: x, y: y))
+                char == "." ? nil : (frequency: char, position: Point(x: x, y: y))
             }
         }
     }
 
-    func generateAntinodes(antennas: [(frequency: Character, position: (x: Int, y: Int))], maxPosition: (x: Int, y: Int), withHarmonics: Bool = false) -> [(x: Int, y: Int)] {
-        var antinodes: [(x: Int, y: Int)] = []
-        let isValid = { (p: (x: Int, y: Int)) -> Bool in
+    func generateAntinodes(antennas: [(frequency: Character, position: Point)], maxPosition: Point, withHarmonics: Bool = false) -> Set<Point> {
+        var antinodes: Set<Point> = []
+        let isValid = { (p: Point) -> Bool in
             p.x >= 0 && p.x <= maxPosition.x && p.y >= 0 && p.y <= maxPosition.y
         }
 
@@ -47,23 +52,24 @@ struct Day8: Day {
                 if withHarmonics {
                     var pos = b.position
                     while true {
-                        pos = (x: pos.x + dx, y: pos.y + dy)
+                        pos = Point(x: pos.x + dx, y: pos.y + dy)
                         guard isValid(pos) else { break }
-                        antinodes.append(pos)
+                        antinodes.insert(pos)
                     }
                     
                     pos = a.position
                     while true {
-                        pos = (x: pos.x - dx, y: pos.y - dy)
+                        pos = Point(x: pos.x - dx, y: pos.y - dy)
                         guard isValid(pos) else { break }
-                        antinodes.append(pos)
+                        antinodes.insert(pos)
                     }
-                    antinodes.append(contentsOf: [a.position, b.position])
+                    antinodes.insert(a.position)
+                    antinodes.insert(b.position)
                 } else {
-                    [(x: b.position.x + dx, y: b.position.y + dy),
-                     (x: a.position.x - dx, y: a.position.y - dy)]
+                    [Point(x: b.position.x + dx, y: b.position.y + dy),
+                     Point(x: a.position.x - dx, y: a.position.y - dy)]
                         .filter(isValid)
-                        .forEach { antinodes.append($0) }
+                        .forEach { antinodes.insert($0) }
                 }
             }
         }
@@ -73,11 +79,9 @@ struct Day8: Day {
     private func solve(_ input: String, withHarmonics: Bool = false) -> Int {
         let antennas = parseAntennas(input)
         let lines = input.split(separator: "\n")
-        let maxPosition = (x: lines[0].count - 1, y: lines.count - 1)
+        let maxPosition = Point(x: lines[0].count - 1, y: lines.count - 1)
         let antinodes = generateAntinodes(antennas: antennas, maxPosition: maxPosition, withHarmonics: withHarmonics)
-        return antinodes.enumerated()
-            .filter { i, node in !antinodes[..<i].contains(where: { $0.x == node.x && $0.y == node.y }) }
-            .count
+        return antinodes.count
     }
 
     func p1(_ input: String) -> Int { solve(input) }
