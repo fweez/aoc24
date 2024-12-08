@@ -28,9 +28,17 @@ extension Day {
     func run() {
         print("Day \(day)")
         testPart1(input: testInput)
+        
+        let part1Start = Date()
         part1(input: input)
+        print(String(format: "(%.5fs)", Date().timeIntervalSince(part1Start)))
+        
         testPart2(input: testInput)
+        
+        let part2Start = Date()
         part2(input: input)
+        print(String(format: "(%.5fs)", Date().timeIntervalSince(part2Start)))
+        
         print("----------------------------------------")
     }
 
@@ -58,3 +66,4 @@ Day4().run()
 Day5().run()
 Day6().run()
 Day7().run()
+Day8().run()

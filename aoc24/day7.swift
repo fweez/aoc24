@@ -36,37 +36,44 @@ struct Day7: Day {
     }
 
     func canEqualWithSolutionGeneration(target: Int, numbers: [Int], generateSolutions: (Int, Int) -> [Int]) -> Bool {
-        // Base case - single number must equal target
-        if numbers.count == 1 {
-            return numbers[0] == target
+        // Use dynamic programming to store intermediate results
+        // Key is (index, currentValue), value is whether target can be reached
+        struct MemoKey: Hashable {
+            let index: Int
+            let currentValue: Int
         }
         
-        // Get first two numbers
-        let a = numbers[0]
-        let b = numbers[1]
+        var memo: [MemoKey: Bool] = [:]
         
-        // Generate solutions using provided function
-        let solutions = generateSolutions(a, b)
-        
-        // Create remaining numbers array
-        let remaining = Array(numbers.dropFirst(2))
-        
-        // For each solution so far, recursively try remaining numbers
-        for solution in solutions {
-            if remaining.isEmpty {
-                // No more numbers to process, check if we hit target
-                if solution == target {
-                    return true
-                }
-            } else {
-                // Recursively try remaining numbers with current solution
-                if canEqualWithSolutionGeneration(target: target, numbers: [solution] + remaining, generateSolutions: generateSolutions) {
-                    return true
-                }
+        func dp(_ index: Int, _ currentValue: Int) -> Bool {
+            // Base case - reached end of numbers
+            if index >= numbers.count {
+                return currentValue == target
             }
+            
+            // Check memo
+            let key = MemoKey(index: index, currentValue: currentValue)
+            if let cached = memo[key] {
+                return cached
+            }
+            // First number case
+            if index == 0 {
+                return dp(1, numbers[0])
+            }
+            
+            // Generate solutions with current number
+            let solutions = generateSolutions(currentValue, numbers[index])
+            
+            // Try each solution
+            let result = solutions.contains { solution in
+                solution <= target && dp(index + 1, solution)
+            }
+            
+            memo[key] = result
+            return result
         }
         
-        return false
+        return dp(0, 0)
     }
     
     func canEqual(target: Int, numbers: [Int]) -> Bool {
