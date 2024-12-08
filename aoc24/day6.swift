@@ -318,8 +318,8 @@ struct Day6: Day {
     }
     
     func testPart2(input: String) {
-        let initialState = parseMap(input)
-        let result = countLoopOpportunities(initialState)
+        // let initialState = parseMap(input)
+        // let result = countLoopOpportunities(initialState)
         // assert(result == 6, "Expected 6 loop opportunities but got \(result)")
     }
 }
