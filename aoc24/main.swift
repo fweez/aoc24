@@ -65,7 +65,8 @@ let days: [String: () -> Void] = [
     "5": Day5.run,
     "6": Day6.run,
     "7": Day7.run,
-    "8": Day8.run
+    "8": Day8.run,
+    "9": Day9.run
 ]
 
 if CommandLine.arguments.count < 2 {
